@@ -22,8 +22,8 @@ users = APIRouter(
 @users.get("", response_model = list[User])
 def get_user(id_user : str = None):
     """
-    Regresa la información de todos o de un
-    estudiante registrado.
+    Regresa la información de un estudiante 
+    o de todos aquellos que estén registrados.
     """
     # Si se consulta para todos los usuarios
     if id_user == None:
@@ -42,22 +42,41 @@ def get_user(id_user : str = None):
 def create_user(user : User):
     """
     Crea un nuevo usuario en la base de datos 
-    a partir de la información pasada como parámetro
+    a partir de la información pasada en el body
     """
+    # Verificar la existencia de un usuario
+    user = db.users.find_one({"id_user" : user["id_user"]}, {"_id" : 0})
 
-    # Reemplazar existente o crear un nuevo usuario 
-    db.users.replace_one({"id_user" : user["id_user"]}, user, upsert = True)
+    # Si el usuario no existe
+    if user is None:
+        # Crear un nuevo usuario 
+        identifier = db.users.insert_one(user)
 
-@users.put("", status_code = 204)
+    # El usuario ya existe
+    else:
+        # Lanzar una expcepción
+        raise HTTPException(status_code = 400, detail = f"User {user['id_user']} already exists")
+
+@users.put("", status_code = 200)
 def edit_user(user : User):
     """
     Modifica la información de un usuario existente
     """
-    
-    db.users.replace_one({"id_user" : user["id_user"]}, user, upsert = True)
+    # Verifica la existencia del usuario
+    user = db.users.find_one({"id_user" : user["id_user"]}, {"_id" : 0})
 
-@users.delete("")
-def delete_user(id_user, mode : str = None):
+    # Si el usuario existe
+    if user is not None:
+        # Reemplazar la información de usuario en la base de datos
+        db.users.replace_one({"id_user" : user["id_user"]}, user)
+    
+    # Si el usuario no existe
+    else:
+        # Lanzar una excepción
+        raise HTTPException(status_code = 404, detail = f"User {user['User']} doesn't exists to be replaced")
+
+@users.delete("", status_code = 200)
+def delete_user(id_user : str, mode : str = None):
     """
     Elimina un usuario registrado en la base de datos
     """
@@ -72,7 +91,7 @@ def delete_user(id_user, mode : str = None):
             db.users.delete_one({"id_user" : id_user})
 
         # Si es un soft delete
-        elif mode == "soft":
+        elif mode == "soft" or mode is None:
             # Cambiar el estado de la cuenta a desactivada
             user["status"] = "deactivated"
 
@@ -81,6 +100,6 @@ def delete_user(id_user, mode : str = None):
         
         # Si es un modo que no existe
         else:
-            raise HTTPException(status_code = 404, detail = f"Mode {mode} not valid")
+            raise HTTPException(status_code = 400, detail = f"Mode {mode} not valid")
     else: 
-        raise HTTPException(status_code = 404, detail = f"User {user} doesn't exists")
+        raise HTTPException(status_code = 400, detail = f"User {id_user} doesn't exists")

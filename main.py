@@ -11,6 +11,8 @@ from fastapi import FastAPI
 #           Descripción de la API    #                
 ######################################
 from routes.users import users
+from routes.webscrapers import webscrapers
+from routes.webdriver import webdriver
 
 description = """
 SURE API ayuda a obtener información para la SURE APP. 
@@ -39,3 +41,5 @@ app = FastAPI(
 #      Añadir los routers a la API   #                
 ######################################
 app.include_router(users)
+app.include_router(webscrapers)
+app.include_router(webdriver)
