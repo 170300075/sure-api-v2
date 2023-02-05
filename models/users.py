@@ -28,7 +28,7 @@ class Career(BaseModel):
     situation : str
     status : str
     social_service : str
-    study_plan : str
+    id_career : str
     department : str
 
 class Job(BaseModel):
@@ -48,6 +48,9 @@ class User(BaseModel):
     rfc : str
     nationality : str
     nss : str
+    personal_email : str
+    birthday : datetime
+    sex : str
     personal_phone : str
     home_phone : str
     marital_status : str

@@ -12,9 +12,9 @@ class SubjectGrades(BaseModel):
     teacher : str
     modality : str
     subject : str
-    first_partial : int | str
-    second_partial : int | str
-    third_partial : int | str
+    first_partial : float | str
+    second_partial : float | str
+    third_partial : float | str
     mean : float | str
     final_grade : float | str
 
@@ -22,10 +22,7 @@ class Period(BaseModel):
     mean : float | str
     grades : list[SubjectGrades]
 
-class Periods(BaseModel):
-    period : Period
-
 class Grades(BaseModel):
     id_user : str
-    periods : Periods
+    periods : dict[str, Period]
     last_updated : datetime
