@@ -173,7 +173,7 @@ def get_internships_offer_info():
     a las claves de asignaturas disponibles para el estudiante
     """
     # Obtener la oferta de prácticas profesionales
-    data = internships_offer()
+    data = internships_offer(driver, "IDEIO")
 
     return(data)
 

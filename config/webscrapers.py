@@ -8,6 +8,7 @@ from datetime import datetime
 import string
 from lxml import etree
 import pdfkit
+import re
 
 from config.utilities import dataframe_to_dict
 
@@ -567,7 +568,7 @@ def payments(driver, id_user : str):
 
     return(payments_dictionary)
 
-def internships_offer(driver):
+def internships_offer(driver, career):
     """
     Permite obtener la oferta de prácticas profesionales
     """
@@ -612,7 +613,7 @@ def internships_offer(driver):
         # Creamos un diccionario donde meteremos los datos
         practices_offer = {
             "id_offer" : "",
-            "career" : student_information["career"]["name"],
+            "career" : career,
             "period" : option.split()[0],
             "offer" : {}
         }
@@ -706,3 +707,7 @@ def internships_offer(driver):
     # Retornamos la lista con los diccionarios de las ofertas
     # que contienen la información de las ofertas de practicas
     return(available_offers)
+
+
+def services_offer(driver):
+    print("Services info")
