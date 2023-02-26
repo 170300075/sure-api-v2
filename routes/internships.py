@@ -14,7 +14,7 @@ from config.databases import db
 ######################################
 from models.users import User
 
-users = APIRouter(
+internships = APIRouter(
     tags = ["Prácticas profesionales"],
     prefix = "/practices"
 )

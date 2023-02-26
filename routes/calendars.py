@@ -14,7 +14,7 @@ from config.databases import db
 ######################################
 from models.users import User
 
-users = APIRouter(
+calendars = APIRouter(
     tags = ["Calendarios"],
     prefix = "/calendars"
 )

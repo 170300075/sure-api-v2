@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import os
 
 # Recuperar variables de ambiente
-# load_dotenv("./config/.env")
+load_dotenv("./config/.env")
 
 # Cadena de conexión a base de datos
 mongodb_uri = os.getenv("mongodb_uri")

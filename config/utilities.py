@@ -7,4 +7,3 @@ def dataframe_to_dict(dataframe):
     # Convertir a dataframe
     data_dict = dataframe.to_dict("records")
     return(data_dict)
-

@@ -14,7 +14,7 @@ from config.databases import db
 ######################################
 from models.users import User
 
-users = APIRouter(
+services = APIRouter(
     tags = ["Servicio social"],
     prefix = "/service"
 )

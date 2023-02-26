@@ -19,6 +19,14 @@ users = APIRouter(
     prefix = "/users"
 )
 
+@users.get("/verify", response_model = bool)
+def verify_user_existence(id_user : str):
+    user = db.users.find_one({"id_user" : id_user}, {"_id" : 0})
+    if user is not None:
+        return(True)
+    else:
+        return(False)
+
 @users.get("", response_model = list[User])
 def get_user(id_user : str | None = None):
     """
