@@ -37,7 +37,7 @@ webscrapers = APIRouter(
     prefix = "/webscrapers"
 )
 
-@webscrapers.get("/open", status_code = 200)
+@webscrapers.post("/open", status_code = 200)
 def initialize_webdriver(debug : bool | None = None):
     global driver
     # Opciones para el webdriver
@@ -49,7 +49,7 @@ def initialize_webdriver(debug : bool | None = None):
     # Iniciar sesión del navegador
     driver = webdriver.Chrome(options = options)
 
-@webscrapers.get("/close", status_code = 200)
+@webscrapers.delete("/close", status_code = 200)
 def close_webdriver():
     global driver
 
@@ -68,52 +68,6 @@ def login_into_sigmaa(id_user : str, password : str):
         # Lanzar un error
         raise HTTPException(status_code = 400, 
         detail = "We couldn't connect to SIGMMA using these credentials")
-
-@webscrapers.get("/sigmaa/logout", status_code = 200)
-def logout_from_sigmaa():
-    """
-    Permite cerrar la sesión de usuario del SIGMAA
-    """
-    global driver
-    # Cerrar la sesión de usuario existente
-    logout_sigmaa(driver)
-
-@webscrapers.post("/sipp/login", status_code = 200)
-def login_into_sipp(id_user : str, password : str):
-    """
-    Permite iniciar sesión en el Sistema Integral de
-    Prácticas Profesionales usando las credenciales del
-    estudiante que se envian en el body del request
-    """
-    global driver
-    login_sipp(driver, id_user, password)
-
-@webscrapers.get("/sipp/logout", status_code = 200)
-def logout_from_sipp():
-    """
-    Permite cerrar la sesión de usuario del SIPP
-    """
-    global driver
-    logout_sipp(driver)
-
-@webscrapers.post("/sass/login", status_code = 200)
-def login_into_sass(id_user : str, password : str):
-    """
-    Permite iniciar sesión en el Sistema Automatizado de
-    Servicio Social usando las credenciales del estudiante
-    que se envian en el body del request
-    """
-    global driver
-    login_sass(driver, id_user, password)
-
-@webscrapers.get("/sass/logout", status_code = 200)
-def logout_from_sass():
-    """
-    Permite cerrar la sesión de usuario del SASS
-    """
-    global driver
-    logout_sass(driver)
-
 
 @webscrapers.get("/user_info", response_model = User)
 def get_user_info(id_user : str, password : str):
@@ -165,7 +119,26 @@ def get_academic_offer_info(id_career : str, career : str):
 
     return(data)
 
-@webscrapers.get("/practices_info", status_code = 201)
+@webscrapers.delete("/sigmaa/logout", status_code = 200)
+def logout_from_sigmaa():
+    """
+    Permite cerrar la sesión de usuario del SIGMAA
+    """
+    global driver
+    # Cerrar la sesión de usuario existente
+    logout_sigmaa(driver)
+
+@webscrapers.post("/sipp/login", status_code = 200)
+def login_into_sipp(id_user : str, password : str):
+    """
+    Permite iniciar sesión en el Sistema Integral de
+    Prácticas Profesionales usando las credenciales del
+    estudiante que se envian en el body del request
+    """
+    global driver
+    login_sipp(driver, id_user, password)
+
+@webscrapers.get("/internships_info", status_code = 201)
 def get_internships_offer_info():
     """
     Permite recuperar las listas de empresas ofertadas
@@ -177,6 +150,24 @@ def get_internships_offer_info():
 
     return(data)
 
+@webscrapers.delete("/sipp/logout", status_code = 200)
+def logout_from_sipp():
+    """
+    Permite cerrar la sesión de usuario del SIPP
+    """
+    global driver
+    logout_sipp(driver)
+
+@webscrapers.post("/sass/login", status_code = 200)
+def login_into_sass(id_user : str, password : str):
+    """
+    Permite iniciar sesión en el Sistema Automatizado de
+    Servicio Social usando las credenciales del estudiante
+    que se envian en el body del request
+    """
+    global driver
+    login_sass(driver, id_user, password)
+
 @webscrapers.get("/social_service_info", status_code = 201)
 def get_social_service_info():
     """
@@ -187,3 +178,11 @@ def get_social_service_info():
     data = services_offer()
 
     return(data)
+
+@webscrapers.delete("/sass/logout", status_code = 200)
+def logout_from_sass():
+    """
+    Permite cerrar la sesión de usuario del SASS
+    """
+    global driver
+    logout_sass(driver)

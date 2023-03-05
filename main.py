@@ -4,14 +4,13 @@
 from fastapi import FastAPI
 import pandas as pd
 import numpy as np
-
 from selenium import webdriver
 
 ######################################
 #           Dependencias             #
 ######################################
 from config.utilities import dataframe_to_dict
-from config.databases import client, db
+from config.databases import open_database, close_database
 
 ######################################
 #           Importamos los routers   #                
@@ -53,17 +52,6 @@ app = FastAPI(
         "email" : "kennethdiazgonzalez@hotmail.com"
     }
 )
-
-######################################
-#      Procesos startup and shudown  #                
-######################################
-@app.on_event("startup")
-def startup_event():
-    print(mongodb_uri)
-
-@app.on_event("shutdown")
-def shutdown_event():
-    client.close()
 
 ######################################
 #      Añadir los routers a la API   #                

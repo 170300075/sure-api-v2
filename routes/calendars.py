@@ -18,3 +18,19 @@ calendars = APIRouter(
     tags = ["Calendarios"],
     prefix = "/calendars"
 )
+
+@calendars.get("")
+def get_calendars():
+    return "Hello world!"
+
+@calendars.post("/create")
+def create_calendar():
+    return "Hello world!"
+
+@calendars.put("/edit")
+def edit_calendar():
+    return "Hello world!"
+
+@calendars.delete("/delete")
+def delete_calendar():
+    return "Hello world!"

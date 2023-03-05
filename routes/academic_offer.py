@@ -61,3 +61,28 @@ def get_academic_offer(id_user : str, mode : str = None):
     else:
         # Lanzar error de usuario no encontrado
         raise HTTPException(status_code = 404, detail = f"User {id_user} not found")
+    
+
+@offer.post("/create")
+def create_academic_offer():
+    """
+    Permite crear una nueva oferta académica
+    para un programa educativo.
+    """
+    return "Hello world"
+
+@offer.put("/edit")
+def edit_academic_offer():
+    """
+    Permite editar una oferta académica existente 
+    de un programa educativo.
+    """
+    return "Hello world"
+
+@offer.delete("/delete")
+def delete_academic_offer():
+    """
+    Permite eliminar la oferta académica de un
+    periodo especificado en un programa educativo.
+    """
+    return "Hello world"

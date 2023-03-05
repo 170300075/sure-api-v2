@@ -48,9 +48,8 @@ Las funcionalidades de esta versión se describen a continuación:
 - Consultar la oferta académica
     - Todas las asignaturas ofertadas.
     - Solo las asignaturas por acreditar.
-    - Mostrar la tasa de reprobación/aprobación (dinámica)
-    - Veces que se ha seleccionado por un estudiante
+    - Mostrar la tasa de reprobación/aprobación (dinámica).
+    - Veces que se ha seleccionado por un estudiante.
 - Registrar al información del estudiante
     - Recuperarla por primera vez para el registro.
     - Permitir actualizar algunos datos de ellos en el sistema.
-- 

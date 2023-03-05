@@ -51,8 +51,8 @@ def get_drafts(id_user : str, id_draft : str = None):
     else:
         raise HTTPException(status_code = 404, detail = f"User {id_user} not found")
 
-@drafts.post("")
-def save_draft(id_user : str, my_draft: Draft):
+@drafts.post("/create")
+def create_draft(id_user : str, my_draft: Draft):
     """
     Permite guardar un borrador curricular en
     la base de datos para su posterior consulta
@@ -65,3 +65,17 @@ def save_draft(id_user : str, my_draft: Draft):
         inserted_id = db.drafts.insert_one({"id_user" : id_user}, my_draft)
     else:
         raise HTTPException(status_code = 404, detail = f"User {id_user} not found")
+    
+@drafts.put("/edit")
+def edit_draft():
+    """
+    Permite editar un borrador curricular existente
+    """
+    return "Hello world!"
+
+@drafts.delete("/delete")
+def delete_draft():
+    """
+    Permite eliminar un borrador curricular existente
+    """
+    return "Hello world!"

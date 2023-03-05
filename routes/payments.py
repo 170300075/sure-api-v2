@@ -22,7 +22,7 @@ payments = APIRouter(
 @payments.get("")
 def get_payments(id_user : str, mode : str = None):
     """
-    Permite obtener la lista de adeudos y pagos
+    Permite consultar la lista de adeudos y pagos
     efectuados por el estudiante a lo largo de su carrera
     """
     user = db.users.find_one({"id_user" : id_user}, {"_id" : 0})
@@ -40,3 +40,27 @@ def get_payments(id_user : str, mode : str = None):
         return(payments)
     else:
         raise HTTPException(status_code = 404, detail = f"User {id_user} not found")
+    
+@payments.post("/create")
+def create_payments():
+    """
+    Permite crear un nuevo registro de adeudos y pagos 
+    de un estudiante.
+    """
+    return "Hello world!"
+
+@payments.put("/edit")
+def edit_payments():
+    """
+    Permite editar el registro de adeudos y pagos 
+    de un estudiante
+    """
+    return "Hello world!"
+
+@payments.delete("/delete")
+def delete_payments():
+    """
+    Permite eliminar el registro de adeudos y pagos
+    de un estudiante.
+    """
+    return "Hello world!"
