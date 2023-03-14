@@ -13,13 +13,14 @@ from config.databases import db
 #           Modelos                  #
 ######################################
 from models.users import User
+from models.payments import Invoice, Payments
 
 payments = APIRouter(
     tags = ["Pagos"],
     prefix = "/payments"
 )
 
-@payments.get("")
+@payments.get("", response_model = Invoice)
 def get_payments(id_user : str, mode : str = None):
     """
     Permite consultar la lista de adeudos y pagos
@@ -31,7 +32,7 @@ def get_payments(id_user : str, mode : str = None):
         if mode in [None, "all"]:
             payments = db.payments.find_one({"id_user" : id_user}, {"_id" : 0})
         elif mode == "billed":
-            payments = db.payments.find_one({"id_user" : id_user}, {"_id" : 0})
+            payments = db.payments.find_one({"id_user" : id_user, "payments.status" : "Pagada"}, {"_id" : 0})
         elif mode == "debt":
             payments = db.payments.find_one({"id_user" : id_user}, {"_id" : 0})
         else:

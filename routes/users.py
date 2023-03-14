@@ -33,7 +33,7 @@ def get_user(id_user : str | None = None):
     else:
         data = [db.users.find_one({"id_user" : id_user}, {"_id" : 0})]
 
-    if len(data) > 0 and None not in data: 
+    if len(data) > 0 and None not in data:
         return(data)
     else:
         raise HTTPException(status_code = 404, detail = "User(s) not found")

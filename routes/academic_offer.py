@@ -8,11 +8,13 @@ from fastapi import APIRouter, HTTPException
 ######################################
 from config.utilities import dataframe_to_dict
 from config.databases import db
+from config.utilities import verify_user_existence
 
 ######################################
 #           Modelos                  #
 ######################################
 from models.users import User
+from models.academic_offer import AcademicOffer
 
 offer = APIRouter(
     tags = ["Oferta académica"],
@@ -26,20 +28,20 @@ def get_academic_offer(id_user : str, mode : str = None):
     de modificadores pasados como argumentos
     """
     # Verificar la existencia del usuario
-    user = db.users.find_one({"id_user" : id_user}, {"_id" : 0})
+    found_user = verify_user_existence(id_user)
 
     # Si el usuario existe
-    if user is not None:
+    if found_user == True:
         # Obtener el programa educativo del estudiante
-        id_career = user["career"]["id_career"]
+        id_career = db.users.find_one({"id_user" : id_user}, {"_id" : 0})["career"]["id_career"]
 
         # Si se necesita consultar la oferta completa
-        if mode in [None, "all"]:
+        if mode is None:
             # Consultar la oferta academica de la carrera
             offer = db.academic_offer.find_one({})
         # Si se requieren las asignaturas que le faltan por acreditar
         # al estudiante
-        elif mode == "student":
+        elif mode == "pending":
             # Consultar la oferta completa
             offer = db.academic_offer.find_one({})
 
@@ -64,12 +66,13 @@ def get_academic_offer(id_user : str, mode : str = None):
     
 
 @offer.post("/create")
-def create_academic_offer():
+def create_academic_offer(academic_offer : AcademicOffer):
     """
     Permite crear una nueva oferta académica
     para un programa educativo.
     """
-    return "Hello world"
+    inserted_id = db.academic_offer.insert_one({"id_career" : academic_offer.id_career}, academic_offer)
+
 
 @offer.put("/edit")
 def edit_academic_offer():

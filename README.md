@@ -1,8 +1,18 @@
-# SURE API versión 2
+# SURE API Rev. 2
 
-Las funcionalidades de esta versión se describen a continuación:
+El Sistema Unificado de Recomendación Escolar es un conjunto de herramientas cuya finalidad es mantener a los estudiantes actualizados con la información pertinente de su trayectoria universitaria.
 
-1. Datos obtenidos del sistema SIGMAA:
+Una de las principales caracteristicas de este software respecto a los actuales usados en la Universidad del Caribe, es que la información es usada de forma conveniente para permitir al estudiantado tomar mejores decisiones respecto a indicadores. 
+
+La caracteristica más importante de este sistema, que es un factor diferenciador, es que cada estudiante puede recibir recomendaciones curriculares, o bien, validar nuevas que hayan sido creadas manualmente. 
+
+El proyecto está destinado a la administración de los datos y la adquisición de nuevos registros. Toda la infraestructura transaccional se realiza mediante endpoints que permiten mantener actualizada la información en todo momento. 
+
+Alguna de las funcionalidades en las que se desarrolla el proyecto incluyen:
+Recuperacion de información en SIGMAA: 
+
+*Los datos se obtienen por través de webscrapers*
+
 
 - Oferta académica por categoría
     - Asignaturas.

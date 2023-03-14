@@ -1,3 +1,12 @@
+######################################
+#           Bibliotecas              #
+######################################
+import requests
+import json
+
+######################################
+#           Dependencias             #
+######################################
 from config.databases import db
 
 def dataframe_to_dict(dataframe):
@@ -16,3 +25,33 @@ def verify_user_existence(id_user : str):
         return(True)
     else:
         return(False)
+
+def get(url : str, payload : dict | None = None):
+    if payload is not None:
+        res = requests.get(url = url, params = payload)
+    else:
+        res = requests.get(url = url)
+    return(res)
+
+def post(url : str, payload : dict | None = None, body : dict | None = None):
+    if payload is not None:
+        res = requests.post(url = url, params = payload)
+    elif body is not None:
+        res = requests.post(url = url, data = json.dumps(body))
+    else:
+        res = requests.post(url = url)
+    return(res)
+
+def put(url : str, payload : dict | None = None):
+    if payload is not None:
+        res = requests.put(url = url, params = payload)
+    else:
+        res = requests.put(url = url)
+    return(res)
+
+def delete(url : str, payload : dict | None = None):
+    if payload is not None:
+        res = requests.delete(url = url, params = payload)
+    else:
+        res = requests.delete(url)
+    return(res)

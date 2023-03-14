@@ -710,4 +710,117 @@ def internships_offer(driver, career):
 
 
 def services_offer(driver):
-    print("Services info")
+    """ 
+    This function allows to get the offer of the social service.
+    It returns a diccionary with two list, one for internal projects and 
+    another for the external projects. 
+    """
+
+    # Nos dirigimos a la seccion de la oferta de servicio social
+    driver.get("https://uclb.ucaribe.edu.mx/sass/ofertaAction.do?accion=oferta")
+    # Obtenemos los botones de "ver mas" informacion
+    buttons = driver.find_elements(By.XPATH, "//table[contains(@class, 'tencabezado')]/tbody/tr/td/form/input[contains(@name, 'uiCveProyecto')]")
+    # Una lista para almacenar el atributo value que se extraen del boton (es un input que se envia a un formulario usando POST)
+    values = []
+    # Para cada boton encontrado obtenemos el atributo value
+    for button in buttons:
+        # Guardamos el atributo encontrado
+        values.append(button.get_attribute("value"))
+
+    def getSocialServiceInfo(driver, id):
+        """ 
+        This is an internal function that allows to get the informacion
+        of the company where you can do your social service
+        """
+
+        # Obtenemos los datos generales del proyecto como: tipo, titulo, organizacion, asesor, descripcion y espacios
+        type = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[2]/tbody/tr[1]/th").text
+        title = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[2]/tbody/tr[2]/td/span[1]").text
+        organization = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[2]/tbody/tr[2]/td/span[2]").text
+        assessor = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[2]/tbody/tr[2]/td/span[3]").text
+        description = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[2]/tbody/tr[3]/td/span[1]").text
+        places = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[2]/tbody/tr[3]/td/span[2]").text
+
+        # Obtenemos los datos de la tabla con informacion especifica del proyecto, como: estado, municipio, colonia, codigo postal, ubicacion, telefono
+        # fax, campo, sector, si ofrece apoyo economico, diracion del proyecto, idiomas requeridos, sexo requerido, carrera, departamento, horas por semana y clasificacion
+        state = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[1]/td").text
+        municipality = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[2]/td").text
+        city = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[3]/td").text
+        zone = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[4]/td").text
+        zip_code = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[5]/td").text
+        location = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[6]/td").text
+        phone = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[7]/td").text
+        fax = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[8]/td").text
+        field = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[9]/td").text
+        sector = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[10]/td").text
+        economical_support = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[11]/td").text
+        duration = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[12]/td").text
+        required_language = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[13]/td").text
+        required_sex = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[14]/td").text
+        career = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[15]/td").text
+        department = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[16]/td").text
+        hours_per_week = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[17]/td").text
+        classification = driver.find_element(By.XPATH, "/html/body/div[3]/div/div/div[2]/div/div/div/div/div/table/tbody/tr/td/table/tbody/tr/td[1]/table[4]/tbody/tr[18]/td").text
+
+        # Concentramos toda la informacion del proyecto
+        #  en un diccionario
+        project = {
+            "id_project" : id,
+            "type" : type,
+            "title" : title,
+            "organization" : organization,
+            "assessor" : assessor.split("Asesor: ")[1],
+            "places" : places.split()[1],
+            "details" : {
+                "description" : description,
+                "state" : state,
+                "municipality" : municipality,
+                "city" : city,
+                "zone" : zone,
+                "zip_code" : zip_code,
+                "location" : location,
+                "phone" : phone,
+                "fax" : fax,
+                "field" : field,
+                "sector" : sector,
+                "economical_support" : economical_support,
+                "duration" : duration,
+                "required_language" : required_language,
+                "required_sex" : required_sex,
+                "career" : career,
+                "department" : department,
+                "hours_per_week" : hours_per_week,
+                "classification" : classification
+            } 
+        }
+
+        # Regresamos el diccionario con la info
+        return(project)
+
+    # Una lista para almacenar los diccionarios con la informacion de cada oferta de servicio social
+    projects = []
+    external_projects = []
+    internal_projects = []
+    # Para cada atributo "valor" 
+    for value in values:
+        # Enviamos los datos del formulario usando POST con el valor del atributo "value"
+        # Con esto carga la informacion de la oferta para cada empresa
+        driver.get("https://uclb.ucaribe.edu.mx/sass/ofertaAction.do?accion=ver&uiCveProyecto=" + str(value))
+        # Guardamos en la lista el diccionario con la info de la oferta de la empresa
+        project = getSocialServiceInfo(driver, str(value))
+        if project["type"] == "Proyecto Externo":
+            del project["type"]
+            external_projects.append(project)
+
+        elif project["type"] == "Proyecto Interno":
+            del project["type"]
+            internal_projects.append(project)
+
+    # Creamos un diccionario final con los datos organizados
+    social_service_offer = {
+        "internal_projects" : internal_projects,
+        "external_projects" : external_projects
+    }
+
+    # Retornamos el diccionario con la oferta de servicio social
+    return(social_service_offer)

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-class Payment(BaseModel):
+class Invoice(BaseModel):
     number : int
     id : int
     period : int
@@ -11,7 +11,7 @@ class Payment(BaseModel):
     expiration : datetime
     status : str
 
-class PaymentsList(BaseModel):
+class Payments(BaseModel):
     id_user : str
-    payments : list[Payment]
+    payments : list[Invoice]
     last_updated : datetime
